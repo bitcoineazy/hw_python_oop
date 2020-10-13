@@ -46,38 +46,42 @@ class CaloriesCalculator(Calculator):
 class CashCalculator(Calculator):
     USD_RATE = 77.23
     EUR_RATE = 90.74
-    RUB_RATE = 1.0
+    RUB_RATE = 1
+
+    def __init__(self, limit):
+        super().__init__(limit)
+        self.EURO_RATE = 90.74
 
     def get_today_cash_remained(self, currency):
-        self.EUR_RATE = 90.74
-        self.USD_RATE = 77.23
-        self.RUB_RATE = 1.0
+
         potratil = self.get_today_stats()
         left = self.limit - potratil
-
+        USD_RATE = 77.23
+        EUR_RATE = 90.74
+        RUB_RATE = 1
         if currency == 'rub':
             if left > 0:
-                return f'На сегодня осталось {(left) / self.RUB_RATE} руб'
+                return f'На сегодня осталось {left / RUB_RATE} руб'
             elif left == 0:
                 return f'Денег нет, держись'
             else:
-                return f'Денег нет, держись: твой долг - {(left) / self.RUB_RATE} руб'
+                return f'Денег нет, держись: твой долг - {left / RUB_RATE} руб'
 
         elif currency == 'eur':
             if left > 0:
-                return f'На сегодня осталось {round(left, 2) / self.EURO_RATE} Euro'
+                return f'На сегодня осталось {round(left / EUR_RATE, 2)} Euro'
             elif left == 0:
                 return f'Денег нет, держись'
             else:
-                return f'Денег нет, держись: твой долг - {(left, 2) / self.EURO_RATE} Euro'
+                return f'Денег нет, держись: твой долг - {round(left / EUR_RATE, 2)} Euro'
 
         elif currency == 'usd':
             if left > 0:
-                return f'На сегодня осталось {round(left, 2) / self.USD_RATE} USD'
+                return f'На сегодня осталось {round(left / USD_RATE, 2)} USD'
             elif left == 0:
                 return f'Денег нет, держись'
             else:
-                return f'Денег нет, держись: твой долг - {(left, 2) / self.USD_RATE} USD'
+                return f'Денег нет, держись: твой долг - {round(left / USD_RATE, 2)} USD'
 
 
 cash_calculator = CashCalculator(1000)
