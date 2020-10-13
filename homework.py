@@ -47,21 +47,37 @@ class CashCalculator(Calculator):
     USD_RATE = 77.23
     EUR_RATE = 90.74
     RUB_RATE = 1.0
+
     def get_today_cash_remained(self, currency):
+        self.EUR_RATE = 90.74
+        self.USD_RATE = 77.23
+        self.RUB_RATE = 1.0
         potratil = self.get_today_stats()
         left = self.limit - potratil
-        all_currency = {
-            'usd' : (self.USD_RATE, 'USD'),
-            'eur' : (self.EUR_RATE, 'Euro'),
-            'rub' : (self.RUB_RATE, 'руб')
-        }
-        currency_out = f'{round(abs(left) / all_currency[currency][0])} {all_currency[currency][1]}'
-        if left > 0:
-            return f'На сегодня осталось {currency_out}'
-        elif left < 0:
-            return f'Денег нет, держись: твой долг - {currency_out}'
-        else:
-            return 'Денег нет, держись'
+
+        if currency == 'rub':
+            if left > 0:
+                return f'На сегодня осталось {(left) / self.RUB_RATE} руб'
+            elif left == 0:
+                return f'Денег нет, держись'
+            else:
+                return f'Денег нет, держись: твой долг - {(left) / self.RUB_RATE} руб'
+
+        elif currency == 'eur':
+            if left > 0:
+                return f'На сегодня осталось {round(left, 2) / self.EURO_RATE} Euro'
+            elif left == 0:
+                return f'Денег нет, держись'
+            else:
+                return f'Денег нет, держись: твой долг - {(left, 2) / self.EURO_RATE} Euro'
+
+        elif currency == 'usd':
+            if left > 0:
+                return f'На сегодня осталось {round(left, 2) / self.USD_RATE} USD'
+            elif left == 0:
+                return f'Денег нет, держись'
+            else:
+                return f'Денег нет, держись: твой долг - {(left, 2) / self.USD_RATE} USD'
 
 
 cash_calculator = CashCalculator(1000)
