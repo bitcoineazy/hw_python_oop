@@ -75,6 +75,7 @@ class CashCalculator(Calculator):
 
         return f'На сегодня осталось {currency_out}'
 
+
 if __name__ == "__main__":
     cash_calculator = CashCalculator(1000)
     # дата в параметрах не указана,
